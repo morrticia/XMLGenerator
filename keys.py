@@ -39,13 +39,15 @@ def get_rows(anot_file_path, count):
                 continue
 
             columns_list.append(item)
-
-            word_id = 'P' + f'{count}'
-            word = ET.SubElement(listperson, "word", id=word_id)
-            lemma = ET.SubElement(word, 'lemma').text = f'ლემ. {columns[4]}'
-            note = ET.SubElement(word, 'note')
-            note.text = f'| {columns[3]} {columns[5]} | {columns[1]}'
-            ref = ET.SubElement(note, 'ref').text = f'{columns[2]}'
+            try:
+                word_id = 'P' + f'{count}'
+                word = ET.SubElement(listperson, "word", id=word_id)
+                lemma = ET.SubElement(word, 'lemma').text = f'ლემ. {columns[4]}'
+                note = ET.SubElement(word, 'note')
+                note.text = f'| {columns[3]} {columns[5]} | {columns[1]}'
+                ref = ET.SubElement(note, 'ref').text = f'{columns[2]}'
+            except:
+                print("Columns amount is not as expected: \n Chapter Number, Gr, Arm, O, Lemma, Gram, Eng")
 
             count += 1
     tree = ET.ElementTree(tei_words)

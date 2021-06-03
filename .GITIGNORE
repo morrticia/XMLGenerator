@@ -3,3 +3,6 @@
 envs/
 .idea/
 __pycache__/
+tobit-oshki.xml
+words.xml
+xmlfactory.py

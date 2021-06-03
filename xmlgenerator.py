@@ -6,7 +6,10 @@ from keys import get_rows
 
 
 def create_xml(file_path):
-    document = Document(f'{file_path}')
+    try:
+        document = Document(f'{file_path}')
+    except:
+        print("Given filepath is incorrect. Try again...")
 
     # ვქმნით XML თეგებს
     tei = ET.Element('tei', dict(xmlns_http='//www.tei-c.org/ns/1.0', xmlns_vg='http://www.vangoghletters.org/ns/'))
@@ -23,21 +26,25 @@ def create_xml(file_path):
     # გამოყოფს თავებს დოკუმენტის პარაგრაფებიდან
     for chapter_text in document.paragraphs:
 
-
         if chapter_text.text.startswith('თავი'):
             # ვინახავთ თავების სათაურებს XML თეგებში
             ab = ET.SubElement(div, 'ab', dict(rend="indent")).text = chapter_text.text
             chapter_num = chapter_text.text.replace('თავი', '')
 
-
         if not chapter_text.text.startswith('თავი') and chapter_text.text != '' and chapter_text.text != ' ' and chapter_text.text != '\n' and chapter_text.text != '\t' and chapter_text.text != '\xa0' and chapter_text.text != '\n\xa0':
-            print(f'Enter annotations file path for chapter {chapter_num}')
-            anot_file_path = input()
-            print(f'Enter the last key')
-            count = int(input())
+            try:
+                print(f'Enter annotations file path for chapter {chapter_num}')
+                anot_file_path = input()
+            except:
+                print("Given filepath is incorrect. Try again...")
+
+            try:
+                print(f'Enter the last key')
+                count = int(input())
+            except:
+                print("Key value must be a number. Try again...")
             keys, count = get_rows(anot_file_path, count)
-            used_keys_list = []
-            print(count)
+            print(f'Last generated key was: {count}')
 
             # ვამატებთ თითოეული თავის XML თეგს
             ab = ET.SubElement(div, 'ab', dict(rend="indent"))
@@ -48,7 +55,6 @@ def create_xml(file_path):
                 verses = chapter_text.text.split(delimiter)
 
                 for v in verses:
-
                     words_list = []
                     if delimiter is not None and v != "\n" and v and v != "":
 
@@ -91,7 +97,6 @@ def create_xml(file_path):
                                             word.value = word_text
                                             for dict_item in keys:
                                                 for k, list_item in dict_item.items():
-
                                                     if word_text in list_item[3] and key.replace(',', '.') == list_item[0] and word_text not in list_item[7]:
                                                         word.key = k
                                                         rs.attrib = dict(type="pers", key=f'{k}')
