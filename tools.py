@@ -1,5 +1,6 @@
 import re
 
+
 # ფუნქცია გვიბრუნებს სიტყვებისაგან გამოყოფილ სასვენ ნიშნებს, რომელსაც XML თეგის tail ატრიბუტად გამოვიყენებთ
 def get_punctuation(word_token):
     punctuation_marks = '''!(){}[];:'"\, <>./?@#$%^&*_~'''
@@ -13,36 +14,26 @@ def get_punctuation(word_token):
 
 
 # ფუნქცია გვიბრუნებს ტოკენებს მუხლებიდან სასვენი ნიშნებით
-# def word_tokenize(verse):
-#     # first_bracket = verse.index('[')
-#     # second_bracket = verse.index(']')
-#     new_verse = verse.replace('\xa0', ' ')
-#     q = new_verse.replace('\n', ' ')
-#     a = q.replace('\t', ' ')
-#
-#     tokens = str(a).split(' ')
-#     return tokens
-
-# ფუნქცია გვიბრუნებს ტოკენებს მუხლებიდან სასვენი ნიშნებით
 def word_tokenize(verse):
 
     new_verse = verse.replace('\xa0', ' ')
-    q = new_verse.replace('\n', ' ')
-    a = q.replace('\t', ' ')
+    new_verse = new_verse.replace('\n', ' ')
+    new_verse = new_verse.replace('\t', ' ')
 
-    tokens = str(a).split(' ')
+    tokens = str(new_verse).split(' ')
     new_tokens = []
     first = 0
     index = 0
-    res = re.findall(r'\[.*?\]', a)
+    # პოულობს სიტყვებში "[]"-ებს, რათა გამოყოს აღდგენილი ნაწილები
+    res = re.findall(r'\[.*?\]', new_verse)
 
-    j = ''
+    str = ''
     while index < len(res):
-        j = a.replace(f'{res[index]}', 'res')
-        a = j
+        str = new_verse.replace(f'{res[index]}', 'res')
+        new_verse = str
         index += 1
 
-    tokens = str(a).split(' ')
+    tokens = str(new_verse).split(' ')
     index = 0
     for token in tokens:
         if 'res' in token:
@@ -61,8 +52,6 @@ def get_key(verse):
         if char.isnumeric() or char == ',' or char == '.':
             key += char
     return key
-
-#    C:\Users\Pc\Desktop\oshki.docx
 
 
 # ფუნქციას პარამეტრად გადეცემა თავი და იღებს მუხლის ნომერს, როგორც დელმიტერს თავის მუხლებად დასაყოფად

@@ -7,7 +7,7 @@ def get_rows(anot_file_path, count):
     # ინკრემენტი სიტყვებისთვის, key
     count += 1
 
-    # ვამატებთ ძირითად XML თეგებს
+    # ამატებს ძირითად XML თეგებს
     tei_words = ET.Element('tei', dict(xmlns_http='//www.tei-c.org/ns/1.0)'))
     teiheader_words = ET.SubElement(tei_words, 'teiheader')
     filedesc = ET.SubElement(teiheader_words, 'filedesc')
